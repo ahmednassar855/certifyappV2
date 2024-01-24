@@ -1,4 +1,3 @@
-
 import { sendEmail } from '../../utils/email.js';
 import { resetPsswordTemplate } from '../../utils/resetPasswordHtml.js';
 import AppErr from '../../utils/AppErr.js';
@@ -6,12 +5,15 @@ import catchAsync from '../../utils/catchAsync.js';
 import crypto from 'crypto';
 import bcrypt from 'bcrypt';
 import { createSendToken } from '../../utils/createSendToken.js';
+import { decodeToken } from '../../utils/createToken.js';
+import candidateModel from '../../../database/models/candidateModel.js';
+import providerModel from '../../../database/models/providerModel.js';
 
 
 export const forgetPassword = (model) => {
  return catchAsync(async (req, res, next) => {
   //1) get the user obj from db
-  // console.log(req.body.email , 'sssssssssssssssssssssssssssssssssssssss');
+
   const user = await model.findOne({ email: req.body.email });
 
   if (!user) {
@@ -28,7 +30,7 @@ export const forgetPassword = (model) => {
 
   await user.save({ validateBeforeSave: false });
   //3) send it to user email
-  // console.log(user);
+
   const resetUrl = `${req.protocol}://${req.get('host')}/api/v1/${user.role=='provider'?'provider': user.role== 'candidate'? 'candidate' :user.role== 'examiner'?'examiner': user.role== 'admin' ? 'admin' : null}/resetPassword/${resetToken}`;
   const message = `forgot your password ? submit a PATCH request with new password and confirm password to 
   : ${resetUrl}.\n if you didn't please IGNORE`;
@@ -55,10 +57,9 @@ export const forgetPassword = (model) => {
 export const verifyEmail= (model) => {
     return catchAsync(async (req, res, next) => {
       const { verificationCode , email} = req.body;
-      console.log(verificationCode , req.body);
   
       const user = await model.findOne({ verificationCode ,email});
-      console.log(user);
+
       // Check if the user and the verification code are valid
       if (!user || !user.verificationCodeExpires || Date.now() > user.verificationCodeExpires) {
         return next(new AppErr('Invalid or expired verification code', 400));
@@ -146,9 +147,33 @@ export const login = (model) => {
 
 
 
-export const  getCurrentUser = () => {
-  return catchAsync(async (req, res, next) => {
-    console.log(req.user , 'ssssssssssss');
-    res.json({ user : req.user})
-  })
-}
+export const getCurrentUser = catchAsync(async (req, res, next) => {
+  
+  let token;
+  if (
+    req.headers.cookie &&
+    req.headers.cookie.startsWith('jwt')
+  ) {
+    token = req.headers.cookie.split('=')[1];
+  }
+  if (!token) {
+    return next(new AppErr('you have no token , please log in', 401));
+  }
+  const decoded = decodeToken(token);
+  if (!decoded)return next(new AppErr('your token is expired , please login again ', 401));
+  let user;
+  if(decoded.role === 'candidate'){ user = await candidateModel.findOne({ _id: decoded._id })}
+  else if(decoded.role === 'provider'){ user = await providerModel.findOne({ _id: decoded._id })}
+  else if(decoded.role === 'examiner') {user =await  providerModel.findOne({ _id: decoded._id })};
+  if (!user) return next(new AppErr('the user of this token is no longer exist', 401));
+  if (!user.isEmailVerified) return next(new AppErr('your email is not verified, please verify your email', 401));
+  if (user.status !== 'approved') return next(new AppErr('your account is not activated please wait the admin activation', 401))
+  
+  if (user.passwordChangedAt) {
+   const changePassTime = parseInt(user.passwordChangedAt.getTime() / 1000, 10);
+    if(decoded.iat < changePassTime)return next(new AppErr('your password is changed please login', 401))
+  }
+
+  return res.status(200).json({ status: 'success', user })
+ 
+}) 

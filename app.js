@@ -53,14 +53,7 @@ app.use('/api/v1/badge',badgeRouter);
 app.use('/api/v1/examiner',examinerRouter);
 app.use('/api/v1/candidate',candidateRouter);
 app.use('/api/v1/admin',adminRouter);
-
 app.use('/api/v1/auth',authRouter);
-
-
-
-
-
-
 
 
 

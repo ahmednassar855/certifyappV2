@@ -138,6 +138,7 @@ export const getMyValidBadges = catchAsync(async (req, res, next) => {
       },
     },
   ]);
+ 
   if (!allValidBadges.length) {
     return next(new AppErr('No valid badges found', 404));
   }
@@ -176,7 +177,7 @@ export const getCandidateValidBadges = catchAsync(async (req, res, next) => {
       },
     },
   ]);
-
+  console.log(allValidBadges);
   if (!allValidBadges.length) {
     return next(new AppErr('No valid badges found', 404));
   }
@@ -185,6 +186,71 @@ export const getCandidateValidBadges = catchAsync(async (req, res, next) => {
 });
 
 
+export const getAllBadgesForCandidate = catchAsync(async (req, res, next) => {
+  const candidateId = new mongoose.Types.ObjectId(req.params.candidateId);
+  if (!candidateId) return next(new AppErr("Please send the ID of the candidate to get their badges", 400));
+
+  const allBadges = await candidateBadgeModel.aggregate([
+    {
+      $match: {
+        candidateId: candidateId,
+      },
+    },
+    {
+      $addFields: {
+        year: { $year: '$createdAt' },
+      },
+    },
+    {
+      $sort: { year: 1 },
+    },
+    {
+      $group: {
+        _id: '$year',
+        documents: { $push: '$$ROOT' },
+      },
+    },
+  ]);
+
+  const candidate = await candidateModel.findById(candidateId); // Assuming you have a model named candidateModel for candidate data
+
+  console.log(allBadges);
+
+  if (!candidate) {
+    return next(new AppErr('Candidate not found', 404));
+  }
+
+  return res.status(200).json({ status: 'success', data: { candidate, badges: allBadges } });
+});
+
+export const getMyAllBadges = catchAsync(async (req, res, next) => {
+
+  const allBadges = await candidateBadgeModel.aggregate([
+    {
+      $match: {
+        candidateId: req.user._id,
+      },
+    },
+    {
+      $addFields: {
+        year: { $year: '$createdAt' },
+      },
+    },
+    {
+      $sort: { year: 1 },
+    },
+    {
+      $group: {
+        _id: '$year',
+        documents: { $push: '$$ROOT' },
+      },
+    },
+  ]);
+
+  const candidate = await candidateModel.findById(req.user._id); // Assuming you have a model named candidateModel for candidate data
+
+  return res.status(200).json({ status: 'success', data: { candidate, badges: allBadges } });
+});
 
 export const getCandidateInvalidBadges = catchAsync(async (req, res, next) => {
   const candidateId =new mongoose.Types.ObjectId(req.params.candidateId);

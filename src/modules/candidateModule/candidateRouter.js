@@ -25,19 +25,18 @@ candidateRouter.post('/signup', multiFileUpload(
   );
   candidateRouter.patch( '/updatePassword', createProtectMiddleware(candidateModel) , authController.updatePassword(candidateModel));
 
-  candidateRouter.get('/current-user', createProtectMiddleware(candidateModel), authController.getCurrentUser())
-
-  ///
   candidateRouter.get('/getMyProfile', createProtectMiddleware(candidateModel),restrictTo('candidate'), candidateController.getMyProfile);
 
   candidateRouter.post('/getCandidateProfile',candidateController.getCandidateProfile);
 
-  candidateRouter.get('/getMyValidBadges', createProtectMiddleware(candidateModel) ,restrictTo('candidate') ,candidateController.getMyValidBadges);
+  // candidateRouter.get('/getMyValidBadges', createProtectMiddleware(candidateModel) ,restrictTo('candidate') ,candidateController.getMyValidBadges);
 
-  candidateRouter.get('/getValidBadges/:candidateId' ,candidateController.getCandidateValidBadges);
+  // candidateRouter.get('/getValidBadges/:candidateId' ,candidateController.getCandidateValidBadges);
+  candidateRouter.get('/getAllBadges/:candidateId' , candidateController.getAllBadgesForCandidate);
+  candidateRouter.get('/getMyAllBadges' , createProtectMiddleware(candidateModel),restrictTo('candidate') , candidateController.getMyAllBadges);
 
-  candidateRouter.get('/getInvalidBadges/:candidateId' ,candidateController.getCandidateInvalidBadges);
+  // candidateRouter.get('/getInvalidBadges/:candidateId' ,candidateController.getCandidateInvalidBadges);
 
-  candidateRouter.get('/getMyInvalidBadges' , createProtectMiddleware(candidateModel),restrictTo('candidate') , candidateController.getMyInvalidBadges);
+  // candidateRouter.get('/getMyInvalidBadges' , createProtectMiddleware(candidateModel),restrictTo('candidate') , candidateController.getMyInvalidBadges);
 
 export default candidateRouter;

@@ -9,9 +9,8 @@ import customFetch from "../utils/customFetch";
 export const loader = async () => {
   // verify user data if not exist return to home if exist enter dashboard depends on its userType
   try {
-
-    const { data } = (await customFetch.get("/provider/current-user"));
-
+    const { data } = (await customFetch.get("/auth/current-user"));
+    console.log(data);
     return data;
   } catch (error) {
     return redirect("/");

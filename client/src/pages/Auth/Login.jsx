@@ -19,6 +19,7 @@ import {
 export const action = async ({ request }) => {
   const formData = await request.formData();
   const data = Object.fromEntries(formData);
+  console.log(data);
   const errors = { msg: "" };
   if (data.password.length < 9) {
     errors.msg = "password shall be not length than 9 numbers";
@@ -26,15 +27,15 @@ export const action = async ({ request }) => {
     return errors;
   }
   try {
-    if (data.userType === "academy") {
-      await customFetch.post("/provider/login", data);
-      toast.success("login successful");
-      return redirect("/dashboard/academy");
-
-    } else if (data.userType === "candidate") {
+    if (data.userType === "candidate") {
       await customFetch.post("/candidate/login", data);
-      toast.success("login successful candidate");
+      toast.success("login successful");
       return redirect("/dashboard/candidate");
+
+    } else if (data.userType === "academy") {
+      await customFetch.post("/provider/login", data);
+      toast.success("login successful candidate");
+      return redirect("/dashboard/provider");
 
     } else if (data.userType === "examiner") {
       await customFetch.post("/examiner/login", data);
@@ -46,6 +47,7 @@ export const action = async ({ request }) => {
       return errors;
     }
   } catch (error) {
+    console.log(error);
     errors.msg = error?.response?.data?.message;
     toast.error(errors.msg);
     return error;
@@ -63,7 +65,7 @@ const Login = () => {
         <FormRow
           type="email"
           name="email"
-          defaultValue="ahmed.nassar855@gmail.com"
+          defaultValue="bayon70874@konican.com"
         />
         <WrapperSelect>
           <FormRowSelect

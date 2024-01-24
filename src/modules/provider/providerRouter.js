@@ -21,7 +21,6 @@ providerRouter.post('/signup', multiFileUpload(
 providerRouter.post('/verifyEmail', authController.verifyEmail(providerModel))
 providerRouter.post('/login', authController.login(providerModel));
 
-providerRouter.get('/current-user', createProtectMiddleware(providerModel), authController.getCurrentUser())
 
 
 providerRouter.post(

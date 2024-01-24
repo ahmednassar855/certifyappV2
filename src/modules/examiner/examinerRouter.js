@@ -27,8 +27,6 @@ examinerRouter.post('/signup', multiFileUpload(
   examinerRouter.patch( '/updatePassword', createProtectMiddleware(examinerModel) , authController.updatePassword(examinerModel));
   
 
-  examinerRouter.get('/current-user', createProtectMiddleware(examinerModel), authController.getCurrentUser())
-
 examinerRouter.get('/candidateBadges', createProtectMiddleware(examinerModel), restrictTo('examiner'),
  examinerController.getAllExaminerCandidateBadges);
 
