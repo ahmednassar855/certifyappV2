@@ -16,7 +16,7 @@ export const addBage = catchAsync(async (req, res, next) => {
         const badgePhoto = req.file?.filename
         console.log(req.file);
         console.log(badgePhoto);
-        
+
         const providerId = req.user._id
 
         if (!badgePhoto || !providerId)

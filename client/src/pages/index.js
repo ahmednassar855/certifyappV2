@@ -1,6 +1,5 @@
 export { default as Test } from './Test'
 
-
 //  certifcate
 export { default as CheckCertificatesProfile } from './certificate/CheckCertificatesProfile'
 export { default as ValideBagdCertificate } from './certificate/ValideBagdeCertificate'
@@ -13,10 +12,7 @@ export { default as RegisterCandidate } from './Auth/RegisterCandidate'
 export { default as RegisterApprover } from './Auth/RegisterApprover'
 export { default as RegisterAcademyV2 } from './Auth/RegisterAcademyV2'
 export { default as RegisterCandidateV2 } from './Auth/RegisterCandidateV2'
-
-
 export { default as VerificationCode } from './Auth/VerificationCode'
-
 
 
 export { default as RegisterAcademy } from './Auth/RegisterAcademy'
@@ -29,7 +25,6 @@ export { default as ResetPassword } from './Auth/ResetPassword'
 export { default as ProviderPersonalInformation } from './Auth/Provider/ProviderPersonalInformation'
 export { default as ProviderSignup } from './Auth/Provider/ProviderSignup'
 export { default as ProviderCompleteRegister } from './Auth/Provider/ProviderCompleteRegister'
-
 
 // 
 export { default as DashboardLayout } from './DashboardLayout'
@@ -70,3 +65,9 @@ export { default as Contact } from './Home/Contact'
 export { default as PersonelCertificate } from './PersonelCertificate/PersonelCertificate'
 export { default as PersonelCertificateAllBadges } from './PersonelCertificate/PersonelCertificateAllBadges'
 export { default as PersonelCertificateProfile } from './PersonelCertificate/PersonelCertificateProfile'
+
+
+// badge
+export { default as EditBadge } from './Badge/EditBadge'
+// export { default as DeleteBadge } from './Badge/DeleteBadge'
+

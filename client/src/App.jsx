@@ -43,6 +43,10 @@ import {
   PersonelCertificateAllBadges,
   PersonelCertificate,
 
+  // badge
+  EditBadge,
+  
+
 } from "./pages";
 import TermsCondition from "./pages/Auth/Candidate/TermsCondition";
 
@@ -57,7 +61,13 @@ import { action as AddBadgeAction } from './pages/Provider/ProviderAddNewBadge';
 
 import { loader as DashboardLoader } from './pages/DashboardLayout';
 import { loader as AllBadgesLoader } from './components/AllBadges';
+import { loader as EditBadgeLoader } from './pages/Badge/EditBadge';
+import { action as EditBadgeAction } from './pages/Badge/EditBadge';
+import { action as deleteBadgeAction } from './pages/Badge/DeleteBadge';
 
+// award badge
+import { action as getCandidateToAwardBadgeAction } from './pages/Provider/ProviderAwardingBadgeSearch';
+import { loader as getCandidateProfileToAwardLoader } from './pages/Provider/ProviderAwardingBadgeProfile'
 
 export const checkDefaultThem = () => {
   const isDarkTheme = localStorage.getItem("darkTheme") === "true";
@@ -69,6 +79,7 @@ checkDefaultThem();
 
 const router = createBrowserRouter([
   { path: "terms-conditions", element: <TermsCondition /> },
+  
   {
     path: "/",
     element: <HomeLayout />,
@@ -101,6 +112,7 @@ const router = createBrowserRouter([
   {
     path: "dashboard",
     element: <DashboardLayout />,
+    errorElement: <Error />,
     loader: DashboardLoader,
     children: [
       // profile get without any login using email or registratino number only
@@ -131,11 +143,15 @@ const router = createBrowserRouter([
       // provider
       {
         path: "academy",
+        errorElement: <Error />,
         children: [
           { index: true, element: <ProviderProfile /> },
           { path: "profile", element: <ProviderProfile /> },
           { path: "all-badges", element: <ProviderBadgeList /> , loader: AllBadgesLoader},
           { path: "add-badge", element: <ProviderAddNewBadge />  , action: AddBadgeAction},
+          { path: "edit-badge/:badgeId", element: <EditBadge /> , loader: EditBadgeLoader , action :EditBadgeAction },
+          {path: "delete-badge/:badgeId" , action : deleteBadgeAction},
+          
           { path: "update-information", element: <CandidateUpdateInformation /> },
           { path: "holder-badges", element: <ProviderBadgeHolder /> },
           { path: "declined-badges", element: <ProviderDeclinedBadge /> },
@@ -143,9 +159,9 @@ const router = createBrowserRouter([
           {
             path: "award-badge" , element: <ProviderAwardingBadge />,
             children: [
-              { index: true, element: <ProviderAwardingBadgeSearch /> },
-              { path: "search", element: <ProviderAwardingBadgeSearch /> },
-              { path: "profile", element: <ProviderAwardingBadgeProfile /> },
+              { index: true, element: <ProviderAwardingBadgeSearch /> , action: getCandidateToAwardBadgeAction},
+              { path: ":candidateBadgeId", element: <ProviderAwardingBadgeProfile /> , loader : getCandidateProfileToAwardLoader},
+              // { path: "profile", element: <ProviderAwardingBadgeProfile /> },
               { path: "all-badges", element: <ProviderAwardingBadgeList /> },
               {
                 path: "awarding-new-badge",

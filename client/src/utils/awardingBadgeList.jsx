@@ -3,7 +3,7 @@
 const awardingBadgeList = [
   {
     text: "search badge",
-    path: "search",
+    path: "",
     mainPath: "awardingBadge",
   },
   {

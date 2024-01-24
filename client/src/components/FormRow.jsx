@@ -49,7 +49,7 @@
 // export default FormRow;
 
 
-const FormRow = ({type , name, labelText, defaultValue , onChange , value , placeholder}) => {
+const FormRow = ({type , name, labelText, defaultValue , onChange , value , placeholder , required}) => {
   const inputValue = value !== undefined ? value : '';
 
   return (
@@ -66,8 +66,8 @@ const FormRow = ({type , name, labelText, defaultValue , onChange , value , plac
         className="form-input"
         defaultValue={defaultValue || ''}
         onChange={onChange}
-        required
         placeholder={placeholder|| ""}
+        required={required || ''}
       />
     </div>
   );

@@ -1,18 +1,38 @@
 import React from 'react'
 import { ProfileWrapper, Photo, Name, Details, DetailItem } from './../../assets/wrappers/Profile';
 import photoPerson from '../../assets/images/pers.jpg'
+import { toast } from 'react-toastify';
+import customFetch from '../../utils/customFetch';
+import { useLoaderData, useParams } from 'react-router-dom';
+
+
+export const loader = async({params}) => {
+  console.log(params.candidateBadgeId , 'ffffffffffffffffffffffff');
+  try {
+    const {data} = await customFetch.get(`/candidate/getAllBadges/${params.candidateBadgeId}`) 
+    return data;
+    // /viewCandidateBadge/:candidateBadgeId
+  } catch (error) {
+    toast.error(error?.response?.data?.message)
+    return error
+  }
+}
 
 
 const ProviderAwardingBadgeProfile = () => {
+
+  const {data} = useLoaderData();
+  console.log(data.badges , data.candidate , 'sssssssssssssss');
+
   const profileData = {
-    photoUrl: photoPerson,
-    name: 'John Doe',
-    birthDate: 'January 1, 1990',
-    country: 'Country',
-    city: 'City',
-    email: 'john.doe@example.com',
-    phone: '+1 123 456 7890',
-    address: '123 Main Street, Cityville',
+    photoUrl: data.candidate.candidateProfilePhoto,
+    name: data.candidate.firstName + " " +  data.candidate.familyName,
+    birthDate: data.candidate.DOBirth,
+    country: data.candidate.country,
+    city: data.candidate.city,
+    email: data.candidate.email,
+    phone: data.candidate.phoneNumber,
+    address: data.candidate.address + "-" + data.candidate.city + " " + data.candidate.country,
   };
   return (
     <ProfileWrapper>

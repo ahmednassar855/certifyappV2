@@ -8,6 +8,7 @@ import { createContext, useContext } from "react";
 export const loader = async () => {
   try {
     const { data } = await customFetch.get('/badge/getMyBadges');
+    console.log(data.data.length,'fffffffffffffff');
     return {data};
   } catch (error) {
     toast.error(error.response?.data?.message)
@@ -19,7 +20,7 @@ export const loader = async () => {
 const AllBadgesContext = createContext();
 
 const AllBadges = () => {
-  const { data } = useLoaderData()
+  const {data}  = useLoaderData()
   return (
     <AllBadgesContext.Provider value={{data}}>
       <SearchContainer />

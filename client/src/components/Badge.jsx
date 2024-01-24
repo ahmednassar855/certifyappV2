@@ -7,9 +7,9 @@ const Badge = ({ documents, _id }) => {
   return (
     <Wrapper>
       <div>
-          <h3 className="heading"> Year {_id} </h3>
+        <h3 className="heading"> Year {_id} </h3>
       </div>
-     
+
       <hr />
       <div className="content">
         {documents.map((item) => {
@@ -23,6 +23,19 @@ const Badge = ({ documents, _id }) => {
                 <p>{item.department}</p>
                 <p>{item.createdAt}</p>
               </div>
+              <footer className="actions">
+                <Link
+                  to={`/dashboard/academy/edit-badge/${item._id}`}
+                  className="btn edit-btn"
+                >
+                  Edit
+                </Link>
+                <Form method="post" action={`../delete-badge/${item._id}`}>
+                  <button type="submit" className="btn delete-btn">
+                    Delete
+                  </button>
+                </Form>
+              </footer>
             </div>
           );
         })}
