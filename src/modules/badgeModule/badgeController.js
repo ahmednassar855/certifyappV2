@@ -73,6 +73,14 @@ export const getAllBadgesForProvider = catchAsync(async (req, res, next) => {
         return res.status(200).json({ status: 'success', data: allBadges })
 })
 
+export const getAllBadgesForProviderInList = catchAsync(async (req, res, next) => {
+        const allBadges = await badgeModel.find({providerId : req.user?._id})
+        if (!allBadges) return next(new AppErr('no badges yet', 404))
+
+        return res.status(200).json({ status: 'success', data: allBadges })
+})
+
+
 
 
 // Update Badge

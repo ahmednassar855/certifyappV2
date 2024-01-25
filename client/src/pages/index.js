@@ -14,6 +14,9 @@ export { default as RegisterAcademyV2 } from './Auth/RegisterAcademyV2'
 export { default as RegisterCandidateV2 } from './Auth/RegisterCandidateV2'
 export { default as VerificationCode } from './Auth/VerificationCode'
 
+export { default as RegisterApproverV2 } from './Auth/RegisterApproverV2'
+
+
 
 export { default as RegisterAcademy } from './Auth/RegisterAcademy'
 export { default as MainRegister } from './Auth/MainRegister'
@@ -70,4 +73,14 @@ export { default as PersonelCertificateProfile } from './PersonelCertificate/Per
 // badge
 export { default as EditBadge } from './Badge/EditBadge'
 // export { default as DeleteBadge } from './Badge/DeleteBadge'
+
+
+
+// examiner
+export { default as ExaminerProfile } from './Examiner/ExaminerProfile'
+export { default as ExaminerBadgeHolder } from './Examiner/ExaminerBadgeHolder'
+export { default as ExaminerPendingBadges } from './Examiner/ExaminerPendingBadges'
+export { default as ExaminerUpdateInformation } from './Examiner/ExaminerUpdateInformation'
+export { default as ExaminerInstituteList } from './Examiner/ExaminerInstituteList'
+
 

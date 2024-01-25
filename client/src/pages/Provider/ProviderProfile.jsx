@@ -1,29 +1,30 @@
 import Wrapper from "../../assets/wrappers/ProviderProfileWrapper";
-import companylogo from "../../assets/images/companylogo.jpeg";
-import BadgeInfo from "../../components/BadgeInfo";
+
+import ProfileLogo from "../../components/ProfileLogo";
 
 import { FaFacebookF, FaLinkedinIn, FaTwitter } from "react-icons/fa";
+import { useDashboardContext } from "../DashboardLayout";
 
 const ProviderProfile = () => {
-
+  const { user } = useDashboardContext();
   return (
     
     <Wrapper>
       <header>
         <div className="main-icon">{"Khalda".charAt(0)}</div>
         <div className="info">
-          <h5>Khalda Petroluem Company</h5>
+          <h5>{user.OrganizationName}</h5>
           <p>OGS</p>
         </div>
       </header>
       <div className="content">
         <div className="content-center">
-          <BadgeInfo badgePhoto={companylogo} />
+          <ProfileLogo logoPhoto={user.logo} />
         </div>
         <div className="">
           <div className="section">
             <p>
-              CEO: <span>John Doe</span>
+            {user.providerAdminInfo.adminRole}: <span>{user.providerAdminInfo.firstName}  {user.providerAdminInfo.familyName} </span>
             </p>
             <p>
               Contact Person: Jane Smith <span> Manaaging Director</span>{" "}

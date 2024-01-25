@@ -19,7 +19,6 @@ import {
 export const action = async ({ request }) => {
   const formData = await request.formData();
   const data = Object.fromEntries(formData);
-  console.log(data);
   const errors = { msg: "" };
   if (data.password.length < 9) {
     errors.msg = "password shall be not length than 9 numbers";
@@ -34,13 +33,13 @@ export const action = async ({ request }) => {
 
     } else if (data.userType === "academy") {
       await customFetch.post("/provider/login", data);
-      toast.success("login successful candidate");
+      toast.success("login successful academy");
       return redirect("/dashboard/provider");
 
     } else if (data.userType === "examiner") {
       await customFetch.post("/examiner/login", data);
       toast.success("login successful");
-      return redirect("/examiner/candidate");
+      return redirect("/dashboard/examiner");
     } else {
       errors.msg = "choose the corrct user type";
       toast.error(errors.msg);

@@ -10,6 +10,8 @@ const badgeRouter = Express.Router();
 badgeRouter.post('/addBadge', createProtectMiddleware(providerModel),fileUpload('badgePhoto', 'badge'), badgeController.addBage);
 badgeRouter.post('/addBadgeToCandidate', createProtectMiddleware(providerModel) , badgeController.addBadgeTocandidate);
 badgeRouter.get('/getMyBadges',createProtectMiddleware(providerModel) ,  badgeController.getAllBadgesForProvider);
+badgeRouter.get('/getMyBadgesInList',createProtectMiddleware(providerModel) ,  badgeController.getAllBadgesForProviderInList);
+
 badgeRouter.patch('/updateBadge/:badgeId',createProtectMiddleware(providerModel) ,  badgeController.updateBadge);
 badgeRouter.delete('/deleteBadge/:badgeId',createProtectMiddleware(providerModel) ,  badgeController.deleteBadge);
 badgeRouter.get('/viewBadge/:badgeId',createProtectMiddleware(providerModel) ,  badgeController.viewBadge);

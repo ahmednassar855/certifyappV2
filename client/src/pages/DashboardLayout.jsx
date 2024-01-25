@@ -1,9 +1,8 @@
-import { createContext, useContext, useMemo, useState } from "react";
-import { Outlet, useLoaderData, redirect, useLocation, useNavigate } from "react-router-dom";
+import { createContext, useContext, useState } from "react";
+import { Outlet, useLoaderData, redirect, useNavigate } from "react-router-dom";
 import Wrapper from "../assets/wrappers/Dashboard";
 import { BigSidebar, Navbar, SmallSidebar } from "../components";
 import { checkDefaultThem } from "../App";
-import Badge_Data from "../../Badge_Data.json";
 import customFetch from "../utils/customFetch";
 
 export const loader = async () => {

@@ -25,27 +25,33 @@ const theme = createTheme({
   },
 });
 
-const SearchAutoComplete = () => {
+const SearchAutoComplete = ({badges , setSelectedBadgeId}) => {
   const [jsonResult, setJsonResult] = useState([]);
+  
+  const [selectedBadgeId, setSelectedBadgeIdLocal] = useState(null);
 
   const { isDarkTheme } = useDashboardContext();
 
   useEffect(() => {
-    fetch("https://jsonplaceholder.typicode.com/users")
-      .then((response) => response.json())
-      .then((json) => setJsonResult(json));
-  }, []);
+    setJsonResult(badges.data)
+  }, [badges]);
 
-  console.log(jsonResult);
+
+  const handleSelect = (event, value) => {
+    setSelectedBadgeIdLocal(value ? value._id : null);
+    setSelectedBadgeId(value ? value._id : null);
+  };
+
   return (
     <ThemeProvider theme={theme}>
     <Stack sx={{ margin: "auto" , paddingBottom : '10px' }}>
       <Autocomplete
         id="user_demo"
         getOptionLabel={(jsonResult) =>
-          `${jsonResult.name} ${jsonResult.username}`
+          `${jsonResult.title}`
         }
         options={jsonResult}
+        onChange={handleSelect}
         sx={{
         //   width: 300,
           "& .MuiOutlinedInput-root": {
@@ -66,11 +72,11 @@ const SearchAutoComplete = () => {
             color: `${isDarkTheme ? "white !important" : ""}`, // Set drop-down button color to white
           },
         }}
-        isOptionEqualToValue={(option, value) => option.name === value.name}
+        isOptionEqualToValue={(option, value) => option.title === value.title}
         noOptionsText={"No Available user"}
         renderOption={(props, jsonResult) => (
-          <Box component="li" {...props} key={jsonResult.id}>
-            {jsonResult.name}
+          <Box component="li" {...props} key={jsonResult._id}>
+            {jsonResult.title}
           </Box>
         )}
         renderInput={(params) => (

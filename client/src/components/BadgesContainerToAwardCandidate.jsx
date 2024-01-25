@@ -1,12 +1,11 @@
 import Wrapper from "../assets/wrappers/BadgeContainer";
-// import { useAllBadgesContext } from "./AllBadges";
+import { useCandidateDataToAWardingContext } from "../pages/Provider/ProviderAwardingBadge";
 import Badge from "./Badge";
-import { useDashboardContext } from "../pages/DashboardLayout";
-import { useAllBadgesContext } from "./AllBadges";
 
 
-const BadgesContainer = () => {
-  const { data } = useAllBadgesContext();
+const BadgesContainerToAwardCandidate = () => {
+  const { data } = useCandidateDataToAWardingContext();
+  console.log(data);
   if (data?.data?.length === 0 ) {
     return (
       <Wrapper>
@@ -18,6 +17,7 @@ const BadgesContainer = () => {
     <Wrapper>
       <h5>Badges{data?.data?.length > 1 && 's'} found</h5>
        {data?.data.map((badgeYear) => {
+        console.log(badgeYear);
            return <Badge key={badgeYear._id}  {...badgeYear}/>
        })}
        
@@ -26,4 +26,4 @@ const BadgesContainer = () => {
   );
 };
 
-export default BadgesContainer;
+export default BadgesContainerToAwardCandidate;

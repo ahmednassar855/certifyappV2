@@ -4,25 +4,14 @@ import photoPerson from '../../assets/images/pers.jpg'
 import { toast } from 'react-toastify';
 import customFetch from '../../utils/customFetch';
 import { useLoaderData, useParams } from 'react-router-dom';
+import Wrapper from "../../assets/wrappers/BadgeContainer";
+import { useCandidateDataToAWardingContext } from './ProviderAwardingBadge';
 
 
-export const loader = async({params}) => {
-  console.log(params.candidateBadgeId , 'ffffffffffffffffffffffff');
-  try {
-    const {data} = await customFetch.get(`/candidate/getAllBadges/${params.candidateBadgeId}`) 
-    return data;
-    // /viewCandidateBadge/:candidateBadgeId
-  } catch (error) {
-    toast.error(error?.response?.data?.message)
-    return error
-  }
-}
 
 
 const ProviderAwardingBadgeProfile = () => {
-
-  const {data} = useLoaderData();
-  console.log(data.badges , data.candidate , 'sssssssssssssss');
+  const { data }  = useCandidateDataToAWardingContext()
 
   const profileData = {
     photoUrl: data.candidate.candidateProfilePhoto,
@@ -34,6 +23,14 @@ const ProviderAwardingBadgeProfile = () => {
     phone: data.candidate.phoneNumber,
     address: data.candidate.address + "-" + data.candidate.city + " " + data.candidate.country,
   };
+
+  if (!data ) {
+    return (
+      <Wrapper>
+        <h2>No Badges to display....</h2>
+      </Wrapper>
+    );
+  }
   return (
     <ProfileWrapper>
     <Photo>

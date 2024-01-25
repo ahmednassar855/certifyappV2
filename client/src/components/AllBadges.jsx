@@ -5,10 +5,10 @@ import SearchContainer from "./SearchContainer";
 import { useLoaderData } from "react-router-dom";
 import { createContext, useContext } from "react";
 
-export const loader = async () => {
+export const loader = async ({params}) => {
+  console.log(params);
   try {
     const { data } = await customFetch.get('/badge/getMyBadges');
-    console.log(data.data.length,'fffffffffffffff');
     return {data};
   } catch (error) {
     toast.error(error.response?.data?.message)

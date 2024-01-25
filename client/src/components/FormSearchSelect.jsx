@@ -1,7 +1,6 @@
-import React from "react";
 
-export const FormRowSelect = ({ name, labelText, list , value ,onChange , className , classNameLabel}) => {
-  console.log(list,'hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh');
+export const FormSearchSelect = ({ name, labelText, list , value ,onChange , className , classNameLabel}) => {
+  
   return (
     <div className="form-row">
       <label htmlFor={name} className={classNameLabel || "form-label"}>
@@ -15,11 +14,11 @@ export const FormRowSelect = ({ name, labelText, list , value ,onChange , classN
         value={value}
       
       >
-        {list.map((itemValue) => {
+        {list?.data?.map((item) => {
           return (
-            <option value={itemValue} key={itemValue} style={{paddingTop: '1.5rem'}}>
+            <option value={item._id} key={item._id} style={{paddingTop: '1.5rem'}}>
      
-              {itemValue}
+              {item.title}
             </option>
           );
         })}
@@ -28,4 +27,5 @@ export const FormRowSelect = ({ name, labelText, list , value ,onChange , classN
   );
 };
 
-export default FormRowSelect;
+export default FormSearchSelect;
+

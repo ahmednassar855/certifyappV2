@@ -1,9 +1,26 @@
-import React, { useState } from "react";
+import React, { createContext, useContext, useState } from "react";
 import Wrapper from "../../assets/wrappers/BadgeAwarding";
 import awardingBadgeList from "../../utils/awardingBadgeList";
-import { Link, NavLink, Outlet } from "react-router-dom";
+import { Link, NavLink, Outlet, useLoaderData } from "react-router-dom";
+import { toast } from "react-toastify";
+import customFetch from "../../utils/customFetch";
+
+export const loader = async ({ params }) => {
+  try {
+    const { data } = await customFetch.get(
+      `/candidate/getAllBadges/${params.candidateBadgeId}`
+    );
+    return data;
+  } catch (error) {
+    toast.error(error?.response?.data?.message);
+    return error;
+  }
+};
+
+const CandidateDataToAwardingBadge = createContext();
 
 const ProviderAwardingBadge = () => {
+  const { data } = useLoaderData();
   const [activeLink, setActiveLink] = useState(false);
   const links = awardingBadgeList;
 
@@ -19,9 +36,9 @@ const ProviderAwardingBadge = () => {
             const { text, path, mainPath } = links;
             return (
               <NavLink
-                to={path} 
+                to={path}
                 key={text}
-                className={`nav-link  ${activeLink ? "active" : "" }`}
+                className={`nav-link  ${activeLink ? "active" : ""}`}
                 onClick={toggleLink}
                 end
               >
@@ -32,11 +49,15 @@ const ProviderAwardingBadge = () => {
         </ul>
       </nav>
 
-      <div className="content">
-        <Outlet/>
-      </div>
+      <CandidateDataToAwardingBadge.Provider value={{data}}>
+        <div className="content">
+          <Outlet />
+        </div>
+      </CandidateDataToAwardingBadge.Provider>
     </Wrapper>
   );
 };
+
+export const useCandidateDataToAWardingContext = () => useContext(CandidateDataToAwardingBadge);
 
 export default ProviderAwardingBadge;

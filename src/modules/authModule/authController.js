@@ -8,6 +8,7 @@ import { createSendToken } from '../../utils/createSendToken.js';
 import { decodeToken } from '../../utils/createToken.js';
 import candidateModel from '../../../database/models/candidateModel.js';
 import providerModel from '../../../database/models/providerModel.js';
+import examinerModel from '../../../database/models/examinerModel.js';
 
 
 export const forgetPassword = (model) => {
@@ -162,9 +163,11 @@ export const getCurrentUser = catchAsync(async (req, res, next) => {
   const decoded = decodeToken(token);
   if (!decoded)return next(new AppErr('your token is expired , please login again ', 401));
   let user;
+  console.log(decoded.role === 'examiner');
   if(decoded.role === 'candidate'){ user = await candidateModel.findOne({ _id: decoded._id })}
   else if(decoded.role === 'provider'){ user = await providerModel.findOne({ _id: decoded._id })}
-  else if(decoded.role === 'examiner') {user =await  providerModel.findOne({ _id: decoded._id })};
+  else if(decoded.role === 'examiner') {user =await examinerModel.findOne({ _id: decoded._id })};
+  console.log(user);
   if (!user) return next(new AppErr('the user of this token is no longer exist', 401));
   if (!user.isEmailVerified) return next(new AppErr('your email is not verified, please verify your email', 401));
   if (user.status !== 'approved') return next(new AppErr('your account is not activated please wait the admin activation', 401))

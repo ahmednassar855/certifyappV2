@@ -11,7 +11,7 @@ const links = [
     mainPath: "academy",
     role: "provider",
     icon: <ImProfile />,
-    className: 'nav-link',
+    className: "nav-link",
   },
   {
     text: "add badge",
@@ -19,8 +19,7 @@ const links = [
     mainPath: "academy",
     role: "provider",
     icon: <FaWpforms />,
-    className: 'nav-link',
-
+    className: "nav-link",
   },
   {
     text: "badge list",
@@ -28,8 +27,7 @@ const links = [
     mainPath: "academy",
     role: "provider",
     icon: <MdAdminPanelSettings />,
-    className: 'nav-link',
-
+    className: "nav-link",
   },
   {
     text: "institute list",
@@ -37,8 +35,7 @@ const links = [
     mainPath: "academy",
     role: "provider",
     icon: <ImProfile />,
-    className: 'nav-link',
-
+    className: "nav-link",
   },
   {
     text: "award badge",
@@ -46,8 +43,7 @@ const links = [
     mainPath: "academy",
     role: "provider",
     icon: <MdAdminPanelSettings />,
-    className: 'nav-link award-badg-class',
-
+    className: "nav-link award-badg-class",
   },
   {
     text: "holder badge",
@@ -55,8 +51,7 @@ const links = [
     mainPath: "academy",
     role: "provider",
     icon: <IoBarChartSharp />,
-    className: 'nav-link',
-
+    className: "nav-link",
   },
   {
     text: "pending badges",
@@ -64,8 +59,7 @@ const links = [
     mainPath: "academy",
     role: "provider",
     icon: <MdQueryStats />,
-    className: 'nav-link',
-
+    className: "nav-link",
   },
   {
     text: "declined badges",
@@ -73,8 +67,7 @@ const links = [
     mainPath: "academy",
     role: "provider",
     icon: <ImProfile />,
-    className: 'nav-link',
-
+    className: "nav-link",
   },
   {
     text: "update infromation",
@@ -82,18 +75,16 @@ const links = [
     mainPath: "academy",
     role: "provider",
     icon: <MdAdminPanelSettings />,
-    className: 'nav-link',
-
+    className: "nav-link",
   },
 
-
-// candidate
+  // candidate
   {
     text: "profile",
     path: "candidate",
     mainPath: "candidate",
     role: "candidate",
-    className: 'nav-link',
+    className: "nav-link",
 
     icon: <ImProfile />,
   },
@@ -102,8 +93,8 @@ const links = [
     path: "candidate/all-badges",
     mainPath: "candidate",
     role: "candidate",
-    className: 'nav-link',
-    
+    className: "nav-link",
+
     icon: <MdAdminPanelSettings />,
   },
   {
@@ -111,10 +102,59 @@ const links = [
     path: "provider/update-information",
     mainPath: "candidate",
     role: "candidate",
-    className: 'nav-link',
+    className: "nav-link",
 
     icon: <MdAdminPanelSettings />,
   },
+
+  // examiner
+  {
+    text: "profile",
+    path: "examiner",
+    mainPath: "examiner",
+    role: "examiner",
+    className: "nav-link",
+
+    icon: <ImProfile />,
+  },
+  {
+    text: "badge-holder",
+    path: "examiner/badge-holder",
+    mainPath: "examiner",
+    role: "examiner",
+    className: "nav-link",
+
+    icon: <MdAdminPanelSettings />,
+  },
+
+  {
+    text: "pending-request",
+    path: "examiner/pending-request",
+    mainPath: "examiner",
+    role: "examiner",
+    className: "nav-link",
+
+    icon: <MdAdminPanelSettings />,
+  },
+  {
+    text: "institute-list",
+    path: "examiner/institute-list",
+    mainPath: "examiner",
+    role: "examiner",
+    className: "nav-link",
+
+    icon: <MdAdminPanelSettings />,
+  },
+  {
+    text: "Cand update infromation",
+    path: "examiner/update-information",
+    mainPath: "examiner",
+    role: "examiner",
+    className: "nav-link",
+
+    icon: <MdAdminPanelSettings />,
+  },
+  //
 
   {
     text: "home",
@@ -122,8 +162,7 @@ const links = [
     mainPath: "not a user",
     role: "",
     icon: <ImProfile />,
-    className: 'nav-link',
-
+    className: "nav-link",
   },
   {
     text: "profile",
@@ -131,8 +170,7 @@ const links = [
     mainPath: "not a user",
     role: "",
     icon: <ImProfile />,
-    className: 'nav-link',
-
+    className: "nav-link",
   },
   {
     text: "all badges",
@@ -140,8 +178,7 @@ const links = [
     mainPath: "not a user",
     role: "",
     icon: <ImProfile />,
-    className: 'nav-link',
-
+    className: "nav-link",
   },
 ];
 
