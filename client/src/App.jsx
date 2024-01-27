@@ -59,8 +59,6 @@ import { action as registerAcademyAction } from "./pages/Auth/RegisterAcademyV2"
 import { action as registerCandidateAction } from "./pages/Auth/RegisterCandidateV2";
 import { action as registerApproverAction } from "./pages/Auth/RegisterApproverV2";
 
-
-
 import { action as verifiyCodeAction } from "./pages/Auth/VerificationCode";
 import { action as loginAction } from "./pages/Auth/Login";
 import { action as AddBadgeAction } from "./pages/Provider/ProviderAddNewBadge";
@@ -76,6 +74,14 @@ import { action as getCandidateToAwardBadgeAction } from "./pages/Provider/Provi
 import { loader as getCandidateProfileToAwardLoader } from "./pages/Provider/ProviderAwardingBadge";
 import { loader as getBadgesOfAcademyToAward } from './pages/Provider/ProviderAwardingBadgeToAwardBadge'
 import { action as addBadgeToCandidate } from './pages/Provider/ProviderAwardingBadgeToAwardBadge'
+
+// provider
+
+import { loader as BadgeHolderLoader } from './pages/Provider/ProviderBadgeHolder';
+import { loader as PendingBadgeLoader } from './pages/Provider/ProviderPendingRequests';
+
+import { loader as AllBadgesExaminerLoader } from './pages/Examiner/ExaminerBadgeHolder';
+
 
 
 export const checkDefaultThem = () => {
@@ -172,7 +178,7 @@ const router = createBrowserRouter([
         path: "examiner",
         children: [
           { index: true, element: <ExaminerProfile /> },
-          { path: "badge-holder", element: <ExaminerBadgeHolder /> },
+          { path: "badge-holder", element: <ExaminerBadgeHolder /> , loader : AllBadgesExaminerLoader},
           { path: "pending-request", element: <ExaminerPendingBadges /> },
           { path: "institute-list", element: <ExaminerInstituteList /> },
           { path: "update-information", element: <ExaminerUpdateInformation /> },
@@ -210,9 +216,9 @@ const router = createBrowserRouter([
             path: "update-information",
             element: <CandidateUpdateInformation />,
           },
-          { path: "holder-badges", element: <ProviderBadgeHolder /> },
+          { path: "holder-badges", element: <ProviderBadgeHolder />  , loader : BadgeHolderLoader},
           { path: "declined-badges", element: <ProviderDeclinedBadge /> },
-          { path: "pending-badges", element: <ProviderPendingRequests /> },
+          { path: "pending-badges", element: <ProviderPendingRequests /> , loader : PendingBadgeLoader},
 
           // awarding badge
           { path: "award-badge", element: <ProviderAwardingBadgeSearch />,action: getCandidateToAwardBadgeAction,},

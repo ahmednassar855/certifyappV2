@@ -7,7 +7,53 @@ import {
   getSortedRowModel,
   getFilteredRowModel,
 } from "@tanstack/react-table";
+import TableStyleWrapper from "../assets/wrappers/TableStyleWrapper";
+import styled from "styled-components";
 
+const Table = styled.div`
+  border: 1px solid var(--color-grey-200);
+
+  font-size: 1.4rem;
+  background-color: var(--color-grey-0);
+  border-radius: 7px;
+  overflow: hidden;
+  @media (max-width: 992px) {
+    min-width: 800px;
+  }
+`;
+
+const TableHeader = styled.header`
+  display: grid;
+  grid-template-columns: 1fr 2fr 2fr 1fr 1fr 1fr 1fr;
+  column-gap: 2.4rem;
+  align-items: center;
+
+  background-color: var(--primary-600);
+  border-bottom: 1px solid var(--grey-300);
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  font-weight: 600;
+  color: var(--color-grey-600);
+  padding: 1.6rem 2.4rem;
+`;
+const Element = styled.div`
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: var(--gray-700);
+  font-family: "Sono";
+`;
+
+const TableRow = styled.div`
+  display: grid;
+  grid-template-columns:  1fr 2fr 2fr 1fr 1fr 1fr 1fr;
+  column-gap: 2.4rem;
+  align-items: center;
+  padding: 1.4rem 2.4rem;
+
+  &:not(:last-child) {
+    border-bottom: 1px solid var(--primary-700);
+  }
+`;
 const ReactTanStackTable = ({data , columns}) => {
   // {"id":1,"candidateName":"dtouson0","trainingCenter":"Walsh-Gutmann","trainingSubject":"Developer I","issueDate":"5/12/2023","country":"Indonesia","action":"pending"}
 
@@ -31,16 +77,16 @@ const ReactTanStackTable = ({data , columns}) => {
   });
 
   return (
-    <>
-    <input className="form-inpu" type="text" value={filtering} onChange={(e) => setFiltering(e.target.value)} />
-      <table className="table">
-        <thead className="table-head">
+    <TableStyleWrapper>
+    <input className="table-input" type="text" value={filtering} onChange={(e) => setFiltering(e.target.value)} />
+      <Table role="table" >
+        <TableHeader role="row">
           {/*  table header */}
           {table.getHeaderGroups().map((headerGroup) => (
-            <tr key={headerGroup.id}>
+            <TableHeader key={headerGroup.id} >
               {headerGroup.headers.map((header) => (
-                <th
-                className="table-header"
+                <div
+               
                   key={header.id}
                   onClick={header.column.getToggleSortingHandler()}
                 >
@@ -49,25 +95,25 @@ const ReactTanStackTable = ({data , columns}) => {
                     header.getContext()
                   )}
                   {{ asc: "⬆️", desc: "⬇️" }[header.column.getIsSorted() ?? null]}
-                </th>
+                </div>
               ))}
               
-            </tr>
+            </TableHeader>
           ))}
-        </thead>
-        <tbody>
+        </TableHeader>
+        
           {table.getRowModel().rows.map((row) => (
-            <tr className="table-row"
+            <TableRow role="row"
             key={row.id}>
               {row.getVisibleCells().map((cell) => (
-                <td key={cell.id}>
+                <Element key={cell.id} className="">
                   {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                </td>
+                </Element>
               ))}
-            </tr>
+            </TableRow>
           ))}
-        </tbody>
-      </table>
+        
+      </Table>
       <div className="table-btn">
         <button className="btn"  onClick={() => table.setPageIndex(0)}>first page</button>
         <button
@@ -88,7 +134,7 @@ const ReactTanStackTable = ({data , columns}) => {
           last page
         </button>
       </div>
-    </>
+    </TableStyleWrapper>
   );
 };
 

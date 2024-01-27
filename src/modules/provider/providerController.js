@@ -18,6 +18,7 @@ import { createSendToken } from '../../utils/createSendToken.js';
 
 export const signup = catchAsync(async (req, res, next) => {
   const { userAgreement } = req.body;
+  console.log(req.files, 'sssssssssssssssssssssssss');
   if (!userAgreement) {
     return next(new AppErr('Please mark user agreement button if you agree to our terms', 400));
   }
@@ -29,6 +30,7 @@ export const signup = catchAsync(async (req, res, next) => {
 
   const authCode = generateAuthCode();
   if(req.files?.logo)req.body.logo = req.files?.logo[0]?.filename;
+  
   req.body.verificatinCode = authCode;
   req.body.verificationCodeExpires = new Date(Date.now() + 24 * 60 * 60 * 1000) // Set expiration to 24 hours from now
 
@@ -66,6 +68,8 @@ export const signup = catchAsync(async (req, res, next) => {
   delete req.body.adminVerificationPhoto;
   delete req.body.adminProfilePhoto;
 
+  console.log(req.files , 'filessssssssssssssssssssssssss');
+  
   const newProvider= await providerModel.create(req.body);
   if(!newProvider)
       return next(new AppErr('fail to signup try again later', 400));
@@ -178,7 +182,6 @@ export const signup = catchAsync(async (req, res, next) => {
       if (!allBadgeHolders.length) {
         return next(new AppErr('No candidates hold badges yet', 404));
       }
-  
       return res.status(200).json({ status: 'success', allBadgeHolders });
     } catch (error) {
       return next(new AppErr('An error occurred while fetching candidates with badges', 500));
@@ -346,7 +349,8 @@ export const signup = catchAsync(async (req, res, next) => {
       if (!declinedBadges.length) {
         return next(new AppErr('No pending badges found', 404));
       }
-  
+      
+      console.log('ssssssssssssss',declinedBadges);
       return res.status(200).json({ status: 'success', data: declinedBadges });
     } catch (error) {
       return next(new AppErr('An error occurred while fetching pending badges', 500));

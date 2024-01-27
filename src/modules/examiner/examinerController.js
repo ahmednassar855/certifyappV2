@@ -10,6 +10,7 @@ import bcrypt from 'bcrypt';
 import examinerModel from '../../../database/models/examinerModel.js';
 import candidateBadgeModel from '../../../database/models/candidateBadgeModel.js';
 import { createSendToken } from '../../utils/createSendToken.js';
+import mongoose from 'mongoose';
 
 
 
@@ -68,14 +69,10 @@ export const login = catchAsync(async (req, res, next) => {
 
 
 
-
-
-
-
-
 export const  getAllExaminerCandidateBadges = catchAsync(async(req, res , next)=>{
   const ObjectId = mongoose.Types.ObjectId
-  const  examinerId= new ObjectId(req.user?._id.toString()) 
+  const  examinerId= new ObjectId(req.user?._id) 
+  console.log(examinerId , 'assssssssssssssssssssssssss');
   const allBadgeHolders =  await candidateBadgeModel.aggregate([
           {
                   $match: {
@@ -110,11 +107,11 @@ export const  getAllExaminerCandidateBadges = catchAsync(async(req, res , next)=
                 {
                   $unwind: '$badge',
                 },
-                {
-                  $match: {
-                    'badge.status': 'approved',
-                  },
-                },
+                // {
+                //   $match: {
+                //     'badge.status': 'approved',
+                //   },
+                // },
                 {
                   $group: {
                     _id: {
@@ -161,18 +158,40 @@ export const  getAllExaminerCandidateBadges = catchAsync(async(req, res , next)=
                 },
                 {
                   $project: {
+                    data: {
+                      $concatArrays: ['$pending', '$published'],
+                    },
+                  },
+                },
+                {
+                  $unwind: '$data',
+                },
+                {
+                  $group: {
+                    _id: '$data.candidateId',
+                    firstName: { $first: '$data.firstName' },
+                    lastName: { $first: '$data.lastName' },
+                    pendingCount: { $sum: '$data.pendingCount' },
+                    publishedCount: { $sum: '$data.publishedCount' },
+                    latestPendingIssueDate: { $max: '$data.latestPendingIssueDate' },
+                    latestPublishedIssueDate: { $max: '$data.latestPublishedIssueDate' },
+                  },
+                },
+                {
+                  $project: {
                     _id: 0,
-                    candidateId: '$pending.candidateId',
-                    firstName: '$candidate.firstName',
-                    lastName: '$candidate.familyName',
-                    pendingCount: '$pending.count',
-                    publishedCount: '$published.count',
-                    latestPendingIssueDate: '$pending.latestIssueDate',
-                    latestPublishedIssueDate: '$published.latestIssueDate',
+                    candidateId: '$_id',
+                    firstName: 1,
+                    lastName: 1,
+                    pendingCount: 1,
+                    publishedCount: 1,
+                    latestPendingIssueDate: 1,
+                    latestPublishedIssueDate: 1,
                   },
                 },
   ])
 if(!allBadgeHolders.length) return next(new AppErr('no candidates holds a badges yet' , 404))
+console.log(allBadgeHolders);
 return res.status(200).json({status : 'success' , data : allBadgeHolders})
 })
 

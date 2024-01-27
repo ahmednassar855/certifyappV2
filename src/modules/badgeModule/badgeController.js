@@ -14,8 +14,7 @@ import providerModel from '../../../database/models/providerModel.js';
 export const addBage = catchAsync(async (req, res, next) => {
         const { title, department } = req.body
         const badgePhoto = req.file?.filename
-        console.log(req.file);
-        console.log(badgePhoto);
+
 
         const providerId = req.user._id
 

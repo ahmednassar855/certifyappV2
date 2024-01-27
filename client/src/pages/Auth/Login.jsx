@@ -64,7 +64,7 @@ const Login = () => {
         <FormRow
           type="email"
           name="email"
-          defaultValue="bayon70874@konican.com"
+          defaultValue="  "
         />
         <WrapperSelect>
           <FormRowSelect
@@ -77,7 +77,7 @@ const Login = () => {
         </WrapperSelect>
         <FormRow type="password" name="password" defaultValue="1234567891" />
         <button type="submit" className="btn btn-block" disabled={isSubmitting}>
-          {isSubmitting ? "submitting" : "submit"}
+          {isSubmitting ? "submitting" : "login"}
         </button>
 
         <div className="genderInput">
